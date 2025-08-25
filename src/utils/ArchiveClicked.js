@@ -1,5 +1,5 @@
 export const ArchiveClicked = ({ id, archive }) => {
     return (
-        archive.some((note) => note.id === id)
+        archive.some(note => note.id === id)
     )
 }

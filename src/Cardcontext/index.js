@@ -7,12 +7,14 @@ const CardProvider = ({ children }) => {
         title: '',
         text: '',
         notes: [],
-        archive:[]
+        archive: [],
+        important: [],
+        deletenotes: []
     }
 
-    const [{ title, text, notes,archive }, notesDispatch] = useReducer(NotesReducer, initialState);
+    const [{ title, text, notes, archive, important, deletenotes }, notesDispatch] = useReducer(NotesReducer, initialState);
     return (
-        <CardContext.Provider value={{ title, text, notes,archive, notesDispatch }}>
+        <CardContext.Provider value={{ title, text, notes, archive, important, deletenotes, notesDispatch }}>
             {children}
         </CardContext.Provider>
     )

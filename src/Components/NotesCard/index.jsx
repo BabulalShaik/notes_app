@@ -9,11 +9,17 @@ import { useCard } from '../../Cardcontext';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import { ArchiveClicked } from '../../utils/ArchiveClicked';
+import { ImportantClicked } from '../../utils/ImportantClicked';
+import { DeleteClicked } from '../../utils/DeleteClicked';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RestoreIcon from '@mui/icons-material/Restore';
 export const NotesCard = ({ id, title, text, isPinned }) => {
 
-    const { notesDispatch, archive } = useCard()
-
+    const { notesDispatch, archive, important, deletenotes } = useCard()
+    const isImportant = ImportantClicked({ id, important })
     const isArchiveClicked = ArchiveClicked({ id, archive })
+    const isDeleteCliked = DeleteClicked({ id, deletenotes })
+    console.log(isDeleteCliked)
     const onPinClick = (isPinned, id) => {
         if (!isPinned) {
             notesDispatch({
@@ -39,30 +45,46 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
                 payload: { id }
             })
     }
+    const onDeleteClick = ({ id }) => {
+        notesDispatch({
+            type: 'DELETE',
+            payload: { id }
+        })
+    }
 
+    const onRestoreClick = ({ id }) => {
+        notesDispatch({
+            type: 'RESTORE',
+            payload: { id }
+        })
+    }
 
-
-
-
-    console.log(isArchiveClicked)
-
+    const onPermanentDeleteClick = ({id}) => {
+        notesDispatch({
+            type:'PERMANENT_DELETE',
+            payload:{id}
+        })
+    }
     return (
         <>
             <Card key={id}
                 style={{
                     margin: "20px 0px 0px 20px",
-                    width: "300px"
+                    width: "320px"
                 }}>
                 <CardHeader
                     title={title}
                     sx={{ padding: "4px 8px", '& .MuiCardHeader-title': { fontSize: "25px", }, '& .MuiCardHeader-content': { padding: 0 } }}
-                    action={!isArchiveClicked ? (isPinned ? (
-                        <IconButton>
-                            <PushPinIcon onClick={() => onPinClick(isPinned, id)}></PushPinIcon>
-                        </IconButton>) : (
-                        <IconButton>
-                            <PushPinOutlinedIcon onClick={() => onPinClick(isPinned, id)} />
-                        </IconButton>)) : <></>
+                    action={isArchiveClicked ? <></> : (isDeleteCliked ? <IconButton>
+                        <RestoreIcon onClick={() => onRestoreClick({ id })} />
+                    </IconButton> :
+                        <IconButton onClick={() => onPinClick(isPinned, id)}>
+                            {isPinned
+                                ? <PushPinIcon />            // Filled when pinned
+                                : <PushPinOutlinedIcon />    // Outlined when not pinned
+                            }
+                        </IconButton>)
+
                     }
                 >
                 </CardHeader>
@@ -73,19 +95,24 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
                     </div>
                     <div style={{ display: "flex", justifyContent: "flex-end" }}>
                         {
-                            isArchiveClicked ?
+                            !isDeleteCliked && !isImportant ? (isArchiveClicked ?
                                 (<IconButton>
                                     <ArchiveIcon onClick={() => onArchiveClick({ id })} />
                                 </IconButton>) : (
                                     <IconButton>
                                         <ArchiveOutlinedIcon onClick={() => onArchiveClick({ id })} />
                                     </IconButton>
-
-                                )
+                                )) : <></>
                         }
-                        <IconButton>
-                            <DeleteOutlineRoundedIcon />
-                        </IconButton>
+                        {
+                            isDeleteCliked ? <IconButton>
+                                <DeleteIcon onClick = {() => onPermanentDeleteClick ({id})}></DeleteIcon>
+                            </IconButton> :
+                                <IconButton>
+                                    <DeleteOutlineRoundedIcon onClick={() => onDeleteClick({ id })} />
+                                </IconButton>
+                        }
+
                     </div>
                 </CardContent>
             </Card>

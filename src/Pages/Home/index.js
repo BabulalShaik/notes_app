@@ -46,7 +46,6 @@ export const Home = () => {
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <div style={{
                             display: "flex",
-
                             flexDirection: "column",
                             marginTop: "20px",
                             width: "300px",
@@ -61,7 +60,8 @@ export const Home = () => {
                                         height: "100%",
                                         outline: "none",
                                         boxSizing: "border-box",
-                                        padding: "5px", borderRadius: "5px"
+                                        padding: "5px",
+                                        borderRadius: "5px"
                                     }} value={title} onChange={onTitleChange} />
                             </div>
 
@@ -72,6 +72,7 @@ export const Home = () => {
                                         width: "300px",
                                         height: "100%",
                                         outline: "none",
+
                                         padding: "5px",
                                         boxSizing: "border-box", borderRadius: "5px"
                                     }} value={text} onChange={onTextChange}>
@@ -83,7 +84,8 @@ export const Home = () => {
                                     background: "transparent",
                                     position: "absolute",
                                     right: "0px",
-                                    bottom: "0px"
+                                    bottom: "0px",
+                                    cursor: "pointer"
 
                                 }} onClick={onAddnotes} disabled={title.length === 0}><AddCircleOutlineRoundedIcon /></button>
                             </div>

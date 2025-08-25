@@ -12,7 +12,7 @@
   width: 150px;
   height: 100vh;
   border-right: 1px solid grey;
-
+  flex-shrink: 0px;
 }
 
 .SidebarNavLink {
@@ -25,7 +25,7 @@
 
 }
 
-.SidebarNavLinkActive ,
+.SidebarNavLinkActive,
 .SidebarNavLink:hover {
   display: flex;
   color: black;
